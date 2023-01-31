@@ -3,13 +3,13 @@
 # This definition is called from consul_template
 # This is a single instance of a configuration file to watch
 # for changes in Consul and update the local file
-define consul_template::watch (
+define consul::template (
   $config_hash     = {},
   $config_defaults = {},
   $template        = undef,
   $template_vars   = {},
 ) {
-  include consul_template
+  include consul::consul_template
 
   $_config_hash = deep_merge($config_defaults, $config_hash)
   if $template == undef and $_config_hash['source'] == undef {
