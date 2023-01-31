@@ -77,7 +77,7 @@ class consul::consul_template (
   Boolean $purge_config_dir                  = true,
   Boolean $service_enable                    = true,
   Enum['stopped', 'running'] $service_ensure = 'running',
-  String $user[1]                            = 'root',
+  String[1] $user                            = 'root',
   String[1] $version                         = '0.19.4',
   Hash $templates                            = {},
 ) {
