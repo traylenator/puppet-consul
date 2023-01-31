@@ -49,10 +49,10 @@
 # [*watches*]
 #   A hash of watches - allows greater Hiera integration. Defaults to `{}`.
 class consul::consul_template (
-  String $arch                               = $consul_template::params::arch,
-  String $init_style                         = $consul_template::params::init_style,
-  String $os                                 = $consul_template::params::os,
-  String $bin_dir                            = '/usr/local/bin',
+  Enum['amd64'] $arch                        = 'amd64',
+  Enum['systemd'] $init_style                = 'systemd',
+  Enum['linux'] $os                          = 'linux',
+  Stdlib::Unixpath $bin_dir                  = '/usr/local/bin',
   Hash $config_hash                          = {},
   Hash $config_defaults                      = {},
   String $config_dir                         = '/etc/consul-template',
@@ -70,22 +70,24 @@ class consul::consul_template (
   String $logrotate_period                   = 'daily',
   Boolean $manage_user                       = false,
   Boolean $manage_group                      = false,
-  String $package_name                       = 'consul-template',
-  String $package_ensure                     = 'latest',
+  String[1] $package_name                    = 'consul-template',
+  Enum['installed','latest'] $package_ensure = 'installed',
   Boolean $pretty_config                     = false,
   Integer $pretty_config_indent              = 4,
   Boolean $purge_config_dir                  = true,
   Boolean $service_enable                    = true,
   Enum['stopped', 'running'] $service_ensure = 'running',
-  String $user                               = 'root',
-  String $version                            = '0.19.4',
+  String $user[1]                            = 'root',
+  String[1] $version                         = '0.19.4',
   Hash $templates                            = {},
 ) {
 
   $_download_url = pick($download_url, "${download_url_base}/${version}/${package_name}_${version}_${os}_${arch}.${download_extension}")
 
-  if $templates {
-    create_resources('consul_template::templates', $watches)
+  $templates.each | $_name, $_params | {
+    consul_template::template{$_name:
+      * => $_params,
+     }
   }
 
   contain consul::consul_template::install
