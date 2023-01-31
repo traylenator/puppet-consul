@@ -2,7 +2,7 @@
 # @summary Installs consul based on the parameters from init
 #
 # @api private
-class consul::install {
+class consul::consul_template::install {
   assert_private()
   $real_data_dir = pick($consul::data_dir, $consul::config_hash[data_dir], $consul::config_defaults[data_dir])
 

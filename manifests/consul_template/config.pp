@@ -8,7 +8,7 @@
 # @param restart_on_change Should the service be restarted on changes
 #
 # @api private
-class consul::config (
+class consul::consul_tempalte::config (
   Hash    $config_hash                 = $consul::config_hash_real,
   Boolean $purge                       = $consul::purge_config_dir,
   Boolean $enable_beta_ui              = $consul::enable_beta_ui,

@@ -56,7 +56,7 @@
 #    ],
 #  }
 #
-define consul::service (
+define consul::consul_template::service (
   Optional[String[1]]         $address              = undef,
   Array[Hash]                 $checks               = [],
   Boolean                     $enable_tag_override  = false,
