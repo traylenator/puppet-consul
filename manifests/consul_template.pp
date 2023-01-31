@@ -48,7 +48,7 @@
 #
 # [*watches*]
 #   A hash of watches - allows greater Hiera integration. Defaults to `{}`.
-class consul_template (
+class consul::consul_template (
   String $arch                               = $consul_template::params::arch,
   String $init_style                         = $consul_template::params::init_style,
   String $os                                 = $consul_template::params::os,
@@ -80,7 +80,7 @@ class consul_template (
   String $user                               = 'root',
   String $version                            = '0.19.4',
   Hash $templates                            = {},
-) inherits consul_template {
+) {
 
   $_download_url = pick($download_url, "${download_url_base}/${version}/${package_name}_${version}_${os}_${arch}.${download_extension}")
 
